@@ -31,14 +31,19 @@ def client():
             elif ch == 'q':
                 break
             elif ch == 'ajouter':
-                id_client = input("Entrez l'idClient du nouveau client : ")
-                nom_client = input("Entrez le nom du nouveau client : ")
-                classe_client = input("Entrez la classe du nouveau client : ")
-                if c.inserer_client(id_client, nom_client, classe_client):
-                    cprint("[+]Ajout de client effectue avec succes.", 'green')
-                    c.afficher_clients()
+                id_client = input("Entrez l'idClient du nouveau client : ").title()
+                c.c.execute("SELECT idClient FROM client where idClient = ?",(id_client,))
+                ids = c.c.fetchall()
+                if (id_client,) in ids:
+                    cprint("[-]Cet ID est deja pris",'red')
                 else:
-                    cprint("[-]Une erreur s'est produite", 'red')
+                    nom_client = input("Entrez le nom du nouveau client : ").title()
+                    classe_client = input("Entrez la classe du nouveau client : ").upper()
+                    if c.inserer_client(id_client, nom_client, classe_client):
+                        cprint("[+]Ajout de client effectue avec succes.", 'green')
+                        c.afficher_clients()
+                    else:
+                        cprint("[-]Une erreur s'est produite", 'red')
             elif re.match(p, ch):
                 id_materiel = (ch.split(" ")[1]).title()
                 c.c.execute("SELECT idClient FROM client where idClient = ?",(id_materiel,))
@@ -58,8 +63,8 @@ def client():
                 c.c.execute("SELECT idClient FROM client where idClient = ?",(id_materiel,))
                 ids = c.c.fetchall()
                 if (id_materiel,) in ids:
-                    cprint("[!]Voulez-vous vraiment supprimer?(o/n)")
-                    resp = input().lower()
+                    cprint("[!]Voulez-vous vraiment supprimer?(o/n)",'yellow')
+                    resp = input(">>>").lower()
                     if resp == 'o':
                         if c.supprimer_client(id_materiel):
                             cprint("[+]Le client a ete retire avec succes.", 'green')
@@ -68,7 +73,7 @@ def client():
                     else:
                         return
                 else:
-                    cprint("[-]Materiel non reconnu", 'red')
+                    cprint("[-]Client non reconnu", 'red')
             elif re.match(p2, ch):
                 key = (ch.split(" ")[1]).title()
                 c.afficher_client_by_key(key)
@@ -106,13 +111,18 @@ def materiel():
             break
         elif ch == 'ajouter':
             idM = input("Entrez l'ID du materiel: ").title()
-            des = input("Entrez la designation du materiel: ").title()
-            stock = int(input("Entrez le nombre de materiel a ajouter: "))
-            if m.ajouter_materiel(idM,des,stock):
-                cprint("[+]Ajout de materiel effectue avec succes.", 'green')
-                m.afficher_materiel()
+            m.c.execute("SELECT idMat FROM materiel where idMat = ?",(idM,))
+            ids = m.c.fetchall()
+            if (idM,) in ids:
+                cprint("[-]Cet ID est deja pris",'red')
             else:
-                cprint("[-]Une erreur s'est produite", 'red')
+                des = input("Entrez la designation du materiel: ").title()
+                stock = int(input("Entrez le nombre de materiel a ajouter: "))
+                if m.ajouter_materiel(idM,des,stock):
+                    cprint("[+]Ajout de materiel effectue avec succes.", 'green')
+                    m.afficher_materiel()
+                else:
+                    cprint("[-]Une erreur s'est produite", 'red')
         elif re.match(p, ch):
             id_materiel = (ch.split(" ")[1]).title()
             m.c.execute("SELECT idMat FROM materiel where idMat = ?",(id_materiel,))
@@ -132,8 +142,8 @@ def materiel():
             m.c.execute("SELECT idMat FROM materiel where idMat = ?",(id_materiel,))
             ids = m.c.fetchall()
             if (id_materiel,) in ids:
-                cprint("[!]Voulez-vous vraiment supprimer?(o/n)")
-                resp = input().lower()
+                cprint("[!]Voulez-vous vraiment supprimer?(o/n)",'yellow')
+                resp = input(">>>").lower()
                 if resp == 'o':
                     if m.supprimer_materiel(id_materiel):
                         cprint("[+]Suppression du materiel effectue avec succes.", 'green')
@@ -193,8 +203,8 @@ def emprunte():
             m.chercherEmpruntNonRendu(id,"emprunt")
         elif re.match(p3, sub_choice):
             id = sub_choice.split(" ")[1]
-            cprint("[!]Voulez-vous vraiment supprimer?(o/n)")
-            resp = input().lower()
+            cprint("[!]Voulez-vous vraiment supprimer?(o/n)",'yellow')
+            resp = input(">>>").lower()
             if resp == 'o':
                 m.supprimerempruntmat("emprunt",id)
             else:
