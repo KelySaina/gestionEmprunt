@@ -71,7 +71,7 @@ def client():
                         else:
                             cprint("[-]Une erreur s'est produite", 'red')
                     else:
-                        return
+                        pass
                 else:
                     cprint("[-]Client non reconnu", 'red')
             elif re.match(p2, ch):
@@ -150,7 +150,7 @@ def materiel():
                     else:
                         cprint("[-]Une erreur s'est produite", 'red')
                 else:
-                    return
+                    pass
             else:
                 cprint("[-]Materiel non reconnu", 'red')
         elif re.match(p2, ch):
@@ -208,7 +208,7 @@ def emprunte():
             if resp == 'o':
                 m.supprimerempruntmat("emprunt",id)
             else:
-                return
+                pass
         elif re.match(p2, sub_choice):
             id = sub_choice.split(" ")[1]
             m.modifierempruntmat("emprunt",id)
