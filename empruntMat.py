@@ -230,7 +230,7 @@ class emprunt:
         print(Fore.GREEN + "[+]Emprunt supprimé avec succès." + Style.RESET_ALL)
 
     def chercherEmpruntNonRendu(self, key, nom_table):
-        self.curseur.execute(f"SELECT * FROM {nom_table} where (idMat = ? or idClient = ? or dateEmp = ? or nombre = ?) and dateRen is null",(key.title(),key.title(),key,key,))
+        self.curseur.execute(f"SELECT * FROM {nom_table} where (idMat = ? or idClient = ? or dateEmp LIKE ? or nombre = ?) and dateRen is null",(key.title(),key.title(),f'%{key}%',key,))
         resultat = self.curseur.fetchall()
 
         if len(resultat) > 0:

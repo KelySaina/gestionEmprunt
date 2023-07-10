@@ -248,17 +248,17 @@ def emprunte():
             choicesEmprunt("emprunt")
         elif sub_choice == 'emprunter' or sub_choice == '4':
             m.empruntmat("emprunt")
-            m.afficheNonRendus()
+            m.afficheNonRendus("emprunt")
             choicesEmprunt("emprunt")
         elif re.match(p4, sub_choice) or sub_choice == '8':
-            if(sub_choice == 8):
-                key = input("Entrer l'ID d'emprunt: ")
+            if(sub_choice == '8'):
+                id = input("Entrer un terme a rechercher: ")
             else:
                 id = sub_choice.split(" ")[1]
             m.chercherEmpruntNonRendu(id,"emprunt")
             choicesEmprunt("emprunt")
         elif re.match(p3, sub_choice) or sub_choice == '7':
-            if(sub_choice == 7):
+            if(sub_choice =='7'):
                 key = input("Entrer l'ID d'emprunt: ")
             else:
                 id = sub_choice.split(" ")[1]
@@ -270,7 +270,7 @@ def emprunte():
                 pass
             choicesEmprunt("emprunt")
         elif re.match(p2, sub_choice) or sub_choice == '6':
-            if(sub_choice == 6):
+            if(sub_choice == '6'):
                 key = input("Entrer l'ID d'emprunt: ")
             else:
                 id = sub_choice.split(" ")[1]
